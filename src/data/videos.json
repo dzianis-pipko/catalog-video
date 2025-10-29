@@ -1,0 +1,122 @@
+[
+  {
+    "id": "1",
+    "title": "Введение в Next.js",
+    "author": "Иван Петров",
+    "durationSec": 245,
+    "publishedAt": "2025-10-25T10:30:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=1"
+  },
+  {
+    "id": "2",
+    "title": "TypeScript: Продвинутые возможности",
+    "author": "Мария Сидорова",
+    "durationSec": 1320,
+    "publishedAt": "2025-10-20T14:45:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=2"
+  },
+  {
+    "id": "3",
+    "title": "Создание API с помощью Node.js",
+    "author": "Алексей Кузнецов",
+    "durationSec": 2100,
+    "publishedAt": "2025-10-15T09:15:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=3"
+  },
+  {
+    "id": "4",
+    "title": "Основы React Hooks",
+    "author": "Елена Волкова",
+    "durationSec": 180,
+    "publishedAt": "2025-10-27T16:20:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=4"
+  },
+  {
+    "id": "5",
+    "title": "Анимации в веб-приложениях",
+    "author": "Дмитрий Орлов",
+    "durationSec": 1680,
+    "publishedAt": "2025-10-10T11:30:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=5"
+  },
+  {
+    "id": "6",
+    "title": "Тестирование React компонентов",
+    "author": "Анна Новикова",
+    "durationSec": 3120,
+    "publishedAt": "2025-10-05T13:40:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=6"
+  },
+  {
+    "id": "7",
+    "title": "CSS Grid: Практическое руководство",
+    "author": "Сергей Попов",
+    "durationSec": 195,
+    "publishedAt": "2025-10-22T08:50:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=7"
+  },
+  {
+    "id": "8",
+    "title": "Оптимизация производительности",
+    "author": "Татьяна Семенова",
+    "durationSec": 2700,
+    "publishedAt": "2025-10-01T15:25:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=8"
+  },
+  {
+    "id": "9",
+    "title": "Работа с формами в React",
+    "author": "Владимир Федоров",
+    "durationSec": 420,
+    "publishedAt": "2025-10-18T12:10:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=9"
+  },
+  {
+    "id": "10",
+    "title": "Создание PWA приложений",
+    "author": "Ольга Беляева",
+    "durationSec": 3300,
+    "publishedAt": "2025-09-28T17:35:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=10"
+  },
+  {
+    "id": "11",
+    "title": "Архитектура современных приложений",
+    "author": "Константин Зайцев",
+    "durationSec": 135,
+    "publishedAt": "2025-10-24T10:00:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=11"
+  },
+  {
+    "id": "12",
+    "title": "Работа с асинхронными данными",
+    "author": "Наталья Крылова",
+    "durationSec": 1860,
+    "publishedAt": "2025-10-12T14:20:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=12"
+  },
+  {
+    "id": "13",
+    "title": "Доступность веб-сайтов",
+    "author": "Михаил Лебедев",
+    "durationSec": 3420,
+    "publishedAt": "2025-09-30T09:45:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=13"
+  },
+  {
+    "id": "14",
+    "title": "Деплой приложений на Vercel",
+    "author": "Екатерина Романова",
+    "durationSec": 285,
+    "publishedAt": "2025-10-16T16:00:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=14"
+  },
+  {
+    "id": "15",
+    "title": "Паттерны проектирования в JavaScript",
+    "author": "Артем Власов",
+    "durationSec": 2940,
+    "publishedAt": "2025-10-08T11:15:00.000Z",
+    "thumbnail": "https://picsum.photos/400/225?random=15"
+  }
+]
