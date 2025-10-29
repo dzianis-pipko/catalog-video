@@ -1,0 +1,42 @@
+@import 'tailwindcss';
+
+:root {
+	--sidebar-width: 15rem;
+}
+
+@theme {
+	--color-bg: #191b28;
+	--color-primary: #ef4444;
+	--color-border: #2a3439;
+
+	--padding-layout: 1.2rem;
+
+	--transitionTimingFunction-default: ease-in-out;
+	--transitionDuration-default: 333ms;
+}
+
+@utility transition-all-custom {
+	transition: all var(--transitionDuration-default) var(--transitionTimingFunction-default);
+}
+
+@utility transition-opacity-custom {
+	transition: opacity var(--transitionDuration-default) var(--transitionTimingFunction-default);
+}
+@utility transition-colors-custom {
+	transition: color var(--transitionDuration-default) var(--transitionTimingFunction-default);
+}
+/* @theme {
+	--transition-opacity: opacity var(--transitionDuration-default) var(--transitionTimingFunction-default);
+} */
+
+html,
+body {
+	/* background-color: var(--color-bg); */
+	@apply text-white bg-bg text-base;
+}
+
+@layer utilities {
+	.grid-5-cols {
+		@apply grid grid-cols-5 gap-6;
+	}
+}
