@@ -3,14 +3,12 @@
 import { VideoGrid } from '@/components/ui/video-grid/VideoGrid';
 import { VideoFilters } from '@/components/ui/video-filters/VideoFilters';
 import { useVideoFilters } from '@/hooks/useVideoFilters';
+import { useVideoCatalog } from '@/hooks/useVideoCatalog';
 import type { IVideo } from '@/types/video';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 export default function Home() {
-  const [videos, setVideos] = useState<IVideo[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -20,6 +18,18 @@ export default function Home() {
     durationFilter: (searchParams.get('duration') as 'all' | '<5' | '5-20' | '>20') || 'all',
     sortBy: (searchParams.get('sort') as 'date' | 'title') || 'date',
   };
+
+  // Получение видео с помощью TanStack Query
+  const {
+    data: videos = [],
+    isLoading,
+    isError,
+    refetch
+  } = useVideoCatalog(
+    initialFilters.searchTerm,
+    mapDurationFilter(initialFilters.durationFilter),
+    initialFilters.sortBy
+  );
 
   const { filters, setFilters, filteredAndSortedVideos } = useVideoFilters(videos, initialFilters);
 
@@ -51,32 +61,30 @@ export default function Home() {
     // Обновление URL без перезагрузки страницы
     router.replace(`?${params.toString()}`, { scroll: false });
   }, [filters, router]);
-const fetchVideos = async () => {
-  try {
-    const response = await fetch('/api/videos');
-    if (!response.ok) {
-      throw new Error('Failed to fetch videos');
+
+  // Обновление данных при изменении фильтров
+  useEffect(() => {
+    refetch();
+  }, [filters, refetch]);
+
+  // Вспомогательная функция для маппинга фильтров
+  function mapDurationFilter(duration: string) {
+    switch (duration) {
+      case '<5':
+        return 'short' as const;
+      case '5-20':
+        return 'medium' as const;
+      case '>20':
+        return 'long' as const;
+      default:
+        return undefined;
     }
-    const data = await response.json();
-    setVideos(data);
-    setError(false); // Сбрасываем ошибку при успешной загрузке
-  } catch (error) {
-    console.error('Error fetching videos:', error);
-    setError(true);
-  } finally {
-    setLoading(false);
   }
-};
-
-useEffect(() => {
-  fetchVideos();
-}, []);
-
 
   return (
     <section className="py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <h1 className="text-3xl font-bold text-white dark:text-text-primary mb-8">{loading ? 'Загрузка видео...' : 'Видео-каталог'}</h1>
+        <h1 className="text-3xl font-bold text-white dark:text-text-primary mb-8">{isLoading ? 'Загрузка видео...' : 'Видео-каталог'}</h1>
         <VideoFilters
           searchTerm={filters.searchTerm}
           durationFilter={filters.durationFilter}
@@ -87,9 +95,9 @@ useEffect(() => {
         />
         <VideoGrid
           videos={filteredAndSortedVideos}
-          isLoading={loading}
-          isError={error}
-          onRetry={fetchVideos}
+          isLoading={isLoading}
+          isError={isError}
+          onRetry={refetch}
           onResetFilters={resetFilters}
         />
       </div>
