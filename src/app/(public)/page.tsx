@@ -10,6 +10,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 export default function Home() {
   const [videos, setVideos] = useState<IVideo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -21,6 +22,15 @@ export default function Home() {
   };
 
   const { filters, setFilters, filteredAndSortedVideos } = useVideoFilters(videos, initialFilters);
+
+  // Функция для сброса фильтров
+  const resetFilters = () => {
+    setFilters({
+      searchTerm: '',
+      durationFilter: 'all',
+      sortBy: 'date',
+    });
+  };
 
   // Обновление URL при изменении фильтров
   useEffect(() => {
@@ -41,22 +51,27 @@ export default function Home() {
     // Обновление URL без перезагрузки страницы
     router.replace(`?${params.toString()}`, { scroll: false });
   }, [filters, router]);
+const fetchVideos = async () => {
+  try {
+    const response = await fetch('/api/videos');
+    if (!response.ok) {
+      throw new Error('Failed to fetch videos');
+    }
+    const data = await response.json();
+    setVideos(data);
+    setError(false); // Сбрасываем ошибку при успешной загрузке
+  } catch (error) {
+    console.error('Error fetching videos:', error);
+    setError(true);
+  } finally {
+    setLoading(false);
+  }
+};
 
-  useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const response = await fetch('/api/videos');
-        const data = await response.json();
-        setVideos(data);
-      } catch (error) {
-        console.error('Error fetching videos:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  fetchVideos();
+}, []);
 
-    fetchVideos();
-  }, []);
 
   return (
     <section className="py-8">
@@ -70,7 +85,13 @@ export default function Home() {
           onDurationFilterChange={(filter) => setFilters(prev => ({ ...prev, durationFilter: filter }))}
           onSortChange={(sort) => setFilters(prev => ({ ...prev, sortBy: sort }))}
         />
-        <VideoGrid videos={filteredAndSortedVideos} isLoading={loading} />
+        <VideoGrid
+          videos={filteredAndSortedVideos}
+          isLoading={loading}
+          isError={error}
+          onRetry={fetchVideos}
+          onResetFilters={resetFilters}
+        />
       </div>
     </section>
   );
