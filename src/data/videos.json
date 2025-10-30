@@ -5,7 +5,7 @@
     "author": "Иван Петров",
     "durationSec": 245,
     "publishedAt": "2025-10-25T10:30:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=1"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "2",
@@ -13,7 +13,7 @@
     "author": "Мария Сидорова",
     "durationSec": 1320,
     "publishedAt": "2025-10-20T14:45:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=2"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "3",
@@ -21,7 +21,7 @@
     "author": "Алексей Кузнецов",
     "durationSec": 2100,
     "publishedAt": "2025-10-15T09:15:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=3"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "4",
@@ -29,7 +29,7 @@
     "author": "Елена Волкова",
     "durationSec": 180,
     "publishedAt": "2025-10-27T16:20:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=4"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "5",
@@ -37,7 +37,7 @@
     "author": "Дмитрий Орлов",
     "durationSec": 1680,
     "publishedAt": "2025-10-10T11:30:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=5"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "6",
@@ -45,7 +45,7 @@
     "author": "Анна Новикова",
     "durationSec": 3120,
     "publishedAt": "2025-10-05T13:40:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=6"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "7",
@@ -53,7 +53,7 @@
     "author": "Сергей Попов",
     "durationSec": 195,
     "publishedAt": "2025-10-22T08:50:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=7"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "8",
@@ -61,7 +61,7 @@
     "author": "Татьяна Семенова",
     "durationSec": 2700,
     "publishedAt": "2025-10-01T15:25:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=8"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "9",
@@ -69,7 +69,7 @@
     "author": "Владимир Федоров",
     "durationSec": 420,
     "publishedAt": "2025-10-18T12:10:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=9"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "10",
@@ -77,7 +77,7 @@
     "author": "Ольга Беляева",
     "durationSec": 3300,
     "publishedAt": "2025-09-28T17:35:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=10"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "11",
@@ -85,7 +85,7 @@
     "author": "Константин Зайцев",
     "durationSec": 135,
     "publishedAt": "2025-10-24T10:00:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=11"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "12",
@@ -93,7 +93,7 @@
     "author": "Наталья Крылова",
     "durationSec": 1860,
     "publishedAt": "2025-10-12T14:20:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=12"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "13",
@@ -101,7 +101,7 @@
     "author": "Михаил Лебедев",
     "durationSec": 3420,
     "publishedAt": "2025-09-30T09:45:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=13"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "14",
@@ -109,7 +109,7 @@
     "author": "Екатерина Романова",
     "durationSec": 285,
     "publishedAt": "2025-10-16T16:00:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=14"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   },
   {
     "id": "15",
@@ -117,6 +117,6 @@
     "author": "Артем Власов",
     "durationSec": 2940,
     "publishedAt": "2025-10-08T11:15:00.000Z",
-    "thumbnail": "https://picsum.photos/400/225?random=15"
+    "thumbnail": "https://placeholdit.com/600x338/dddddd/99999"
   }
 ]
