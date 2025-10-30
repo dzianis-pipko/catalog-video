@@ -8,6 +8,10 @@
 	--color-bg: #191b28;
 	--color-primary: #ef4444;
 	--color-border: #2a3439;
+	--color-text-primary: #f8fafc; /* text-gray-50 - высокий контраст */
+	--color-text-secondary: #cbd5e1; /* text-gray-300 - хороший контраст */
+	--color-text-muted: #94a3b8; /* text-gray-400 - достаточный контраст */
+	--color-text-placeholder: #64748b; /* text-gray-500 - для плейсхолдеров */
 
 	--padding-layout: 1.2rem;
 
@@ -32,7 +36,27 @@
 html,
 body {
 	/* background-color: var(--color-bg); */
-	@apply text-white bg-bg text-base;
+	@apply text-text-primary bg-bg text-base;
+}
+
+/* Стили для фокуса для улучшения доступности */
+*:focus {
+	outline: 2px solid #2563eb; /* blue-600 */
+	outline-offset: 2px;
+}
+
+*:focus-visible {
+	outline: 2px solid #2563eb;
+	outline-offset: 2px;
+}
+
+/* Переопределение для элементов, которые уже имеют фокус-стили */
+button:focus,
+input:focus,
+select:focus,
+[tabindex]:focus {
+	outline: 2px solid #2563eb;
+	outline-offset: 2px;
 }
 
 @layer utilities {

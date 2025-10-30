@@ -76,7 +76,7 @@ useEffect(() => {
   return (
     <section className="py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <h1 className="text-3xl font-bold text-white mb-8">{loading ? 'Загрузка видео...' : 'Видео-каталог'}</h1>
+        <h1 className="text-3xl font-bold text-white dark:text-text-primary mb-8">{loading ? 'Загрузка видео...' : 'Видео-каталог'}</h1>
         <VideoFilters
           searchTerm={filters.searchTerm}
           durationFilter={filters.durationFilter}
