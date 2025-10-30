@@ -63,4 +63,9 @@ select:focus,
 	.grid-5-cols {
 		@apply grid grid-cols-5 gap-6;
 	}
+	@media (min-width: 1200px) {
+    .lg1200\:grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
 }

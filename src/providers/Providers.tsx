@@ -7,7 +7,6 @@ import { type ReactNode } from 'react'
 const client = new QueryClient()
 
 export function Providers({ children }: { children: ReactNode }) {
-	// const [queryClient] = useState(() => new QueryClient())
 	return (
 		<QueryClientProvider client={client}>
 			<LazyMotion features={domAnimation}>{children}</LazyMotion>
