@@ -21,13 +21,13 @@ export const VideoGrid = ({ videos, isLoading, isError, onRetry, onResetFilters 
   if(isError) {
     result = (
       <div className="col-span-full text-center py-12 transition-opacity duration-300">
-        <p className="text-lg text-red-400 mb-4">Ошибка загрузки видео</p>
-        <Button
-          onClick={() => onRetry?.()}
-          ariaLabel="Повторить загрузку видео"
-        >
-          Повторить
-        </Button>
+      	<p className="text-lg text-red-50 dark:text-red-400 mb-4">Ошибка загрузки видео</p>
+      	<Button
+      		onClick={() => onRetry?.()}
+      		ariaLabel="Повторить загрузку видео"
+      	>
+      		Повторить
+      	</Button>
       </div>
     );
   } else if(isLoading){
@@ -41,13 +41,13 @@ export const VideoGrid = ({ videos, isLoading, isError, onRetry, onResetFilters 
   } else if (videos.length === 0) {
     result = (
       <div className="col-span-full text-center py-12 transition-opacity duration-300">
-        <p className="text-lg text-gray-300 mb-4">Видео не найдены</p>
-        <Button
-          onClick={() => onResetFilters?.()}
-          ariaLabel="Сбросить фильтры"
-        >
-          Сбросить фильтры
-        </Button>
+      	<p className="text-lg text-gray-300 dark:text-text-secondary mb-4">Видео не найдены</p>
+      	<Button
+      		onClick={() => onResetFilters?.()}
+      		ariaLabel="Сбросить фильтры"
+      	>
+      		Сбросить фильтры
+      	</Button>
       </div>
     );
   } else {
