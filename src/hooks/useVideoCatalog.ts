@@ -9,7 +9,7 @@ export const useVideoCatalog = (
 	return useQuery({
 		queryKey: ['video-catalog', search, duration, sort],
 		queryFn: () => videoService.getVideoCatalog(search, duration, sort),
-		retry: 1,
+		retry: false,
 		refetchOnWindowFocus: false,
 	})
 }

@@ -5,7 +5,7 @@ export const useVideoById = (id: string) => {
 	return useQuery({
 		queryKey: ['video', id],
 		queryFn: () => videoService.getVideoById(id),
-		retry: 1,
+		retry: false,
 		enabled: !!id,
 	})
 }

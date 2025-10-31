@@ -1,89 +1,81 @@
-import { NextRequest } from 'next/server';
+import { NextRequest } from 'next/server'
 
-// Типы для видео
-type Video = {
-  id: string;
-  title: string;
-  author: string;
-  durationSec: number;
-  publishedAt: string;
-  thumbnail: string;
-};
+import videos from '@/data/videos.json'
 
-// Загружаем мок-данные
-let videosData: Video[] = [];
-
-try {
-  videosData = require('../../../data/videos.json');
-} catch (error) {
-  console.error('Ошибка при загрузке мок-данных:', error);
-}
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 export async function GET(request: NextRequest) {
-  // Эмуляция случайных ошибок (примерно в 10% случаев)
-  if (Math.random() < 0.1) {
-    return new Response(
-      JSON.stringify({ error: 'Ошибка сервера при загрузке видео' }),
-      {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-  }
+	const searchParams = request.nextUrl.searchParams
+	const search = searchParams.get('search')
+	const duration = searchParams.get('duration')
+	const sort = searchParams.get('sort')
 
-  // Получаем параметры из URL
-  const { searchParams } = request.nextUrl;
-  const search = searchParams.get('search');
-  const duration = searchParams.get('duration');
+	let filteredVideos = [...videos]
 
-  // Фильтрация поисковому запросу
-  let filteredVideos = videosData;
+	// Поиск по названию
+	if (search) {
+		filteredVideos = filteredVideos.filter(video =>
+			video.title.toLowerCase().includes(search.toLowerCase())
+		)
+	}
 
-  if (search) {
-    const searchTerm = search.toLowerCase();
-    filteredVideos = filteredVideos.filter(
-      (video) =>
-        video.title.toLowerCase().includes(searchTerm) ||
-        video.author.toLowerCase().includes(searchTerm)
-    );
-  }
+	// Фильтр по длительности
+	if (duration) {
+		const now = new Date()
+		const threeMonthsAgo = new Date(
+			now.getFullYear(),
+			now.getMonth() - 3,
+			now.getDate()
+		)
 
-  // Фильтрация по длительности
-  if (duration) {
-    const now = new Date().getTime();
-    const threeMonthsAgo = new Date();
-    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+		switch (duration) {
+			case 'short':
+				filteredVideos = filteredVideos.filter(
+					video => video.durationSec < 300 // < 5 минут
+				)
+				break
+			case 'medium':
+				filteredVideos = filteredVideos.filter(
+					video => video.durationSec >= 300 && video.durationSec <= 1200 // 5-20 минут
+				)
+				break
+			case 'long':
+				filteredVideos = filteredVideos.filter(
+					video => video.durationSec > 1200 // > 20 минут
+				)
+				break
+			case 'new':
+				filteredVideos = filteredVideos.filter(
+					video => new Date(video.publishedAt) >= threeMonthsAgo
+				)
+				break
+		}
+	}
 
-    filteredVideos = filteredVideos.filter((video) => {
-      const videoDurationInMinutes = video.durationSec / 60;
+	// Сортировка
+	if (sort === 'title') {
+		filteredVideos.sort((a, b) => a.title.localeCompare(b.title))
+	} else {
+		// По умолчанию сортировка по дате (новые сверху)
+		filteredVideos.sort(
+			(a, b) =>
+				new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+		)
+	}
 
-      switch (duration) {
-        case 'short':
-          return videoDurationInMinutes < 5;
-        case 'medium':
-          return videoDurationInMinutes >= 5 && videoDurationInMinutes <= 20;
-        case 'long':
-          return videoDurationInMinutes > 20;
-        default:
-          return true;
-      }
-    });
-  }
+	// Эмуляция ошибки в 30% случаев
+	if (Math.random() < 0.3) {
+		return new Response(JSON.stringify({ error: 'Failed to fetch videos' }), {
+			status: 500,
+			headers: { 'Content-Type': 'application/json' }
+		})
+	}
 
-  // Сортировка по дате (новые сверху)
-  filteredVideos.sort(
-    (a, b) =>
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  );
+	// Задержка для имитации реального API
+	await delay(500)
 
-  // Возвращаем ответ с кэшированием (revalidate каждые 60 секунд)
-  return new Response(JSON.stringify(filteredVideos), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 's-maxage=60, stale-while-revalidate=30',
-    },
-  });
+	return new Response(JSON.stringify(filteredVideos), {
+		status: 200,
+		headers: { 'Content-Type': 'application/json' }
+	})
 }
