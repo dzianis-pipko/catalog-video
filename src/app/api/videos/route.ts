@@ -21,13 +21,6 @@ export async function GET(request: NextRequest) {
 
 	// Фильтр по длительности
 	if (duration) {
-		const now = new Date()
-		const threeMonthsAgo = new Date(
-			now.getFullYear(),
-			now.getMonth() - 3,
-			now.getDate()
-		)
-
 		switch (duration) {
 			case 'short':
 				filteredVideos = filteredVideos.filter(
@@ -44,10 +37,8 @@ export async function GET(request: NextRequest) {
 					video => video.durationSec > 1200 // > 20 минут
 				)
 				break
-			case 'new':
-				filteredVideos = filteredVideos.filter(
-					video => new Date(video.publishedAt) >= threeMonthsAgo
-				)
+			default:
+				// Если получен неизвестный параметр длительности, не применяем фильтр
 				break
 		}
 	}

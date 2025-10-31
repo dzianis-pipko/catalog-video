@@ -23,9 +23,9 @@ export default async function Home({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   // Инициализация фильтров из URL-параметров
-  const initialSearch = (searchParams.search as string) || '';
-  const initialDuration = (searchParams.duration as 'all' | '<5' | '5-20' | '>20') || 'all';
- const initialSort = (searchParams.sort as 'date' | 'title') || 'date';
+  const initialSearch = ((await searchParams).search as string) || '';
+  const initialDuration = ((await searchParams).duration as 'all' | '<5' | '5-20' | '>20') || 'all';
+ const initialSort = ((await searchParams).sort as 'date' | 'title') || 'date';
 
  // Получение видео на сервере с обработкой ошибок
   let initialVideos: IVideo[] = [];
