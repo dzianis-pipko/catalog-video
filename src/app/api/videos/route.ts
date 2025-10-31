@@ -63,8 +63,8 @@ export async function GET(request: NextRequest) {
 		)
 	}
 
-	// Эмуляция ошибки в 30% случаев
-	if (Math.random() < 0.3) {
+	// Эмуляция ошибки в 10% случаев
+	if (Math.random() < 0.1) {
 		return new Response(JSON.stringify({ error: 'Failed to fetch videos' }), {
 			status: 500,
 			headers: { 'Content-Type': 'application/json' }
