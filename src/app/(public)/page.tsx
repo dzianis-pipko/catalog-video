@@ -1,6 +1,6 @@
-import PageWrapper from './page-wrapper';
 import { videoService } from '@/services/video.service';
 import type { IVideo } from '@/types/video';
+import CatalogPage from './CatalogPage';
 
 // Вспомогательная функция для маппинга фильтров
 function mapDurationFilter(duration: string) {
@@ -42,7 +42,7 @@ export default async function Home({
   }
 
   return (
-    <PageWrapper
+    <CatalogPage
       initialVideos={initialVideos}
       initialSearch={initialSearch}
       initialDuration={initialDuration}
