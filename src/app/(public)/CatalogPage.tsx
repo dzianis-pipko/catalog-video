@@ -1,16 +1,16 @@
-'use client'
+'use client';
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react';
 
-import { VideoFilters } from '@/components/ui/video-filters/VideoFilters'
-import { VideoGrid } from '@/components/ui/video-grid/VideoGrid'
+import { VideoFilters } from '@/components/ui/video-filters/VideoFilters';
+import { VideoGrid } from '@/components/ui/video-grid/VideoGrid';
 
-import { useVideoCatalog } from '@/hooks/useVideoCatalog'
-import { useVideoFilters } from '@/hooks/useVideoFilters'
+import { useVideoCatalog } from '@/hooks/useVideoCatalog';
+import { useVideoFilters } from '@/hooks/useVideoFilters';
 
-import type { IVideo } from '@/types/video'
+import type { IVideo } from '@/types/video';
 
-interface PageWrapperProps {
+interface CatalogPageProps {
 	initialVideos: IVideo[]
 	initialSearch: string
 	initialDuration: 'all' | '<5' | '5-20' | '>20'
@@ -22,7 +22,7 @@ export default function CatalogPage({
 	initialSearch,
 	initialDuration,
 	initialSort
-}: PageWrapperProps) {
+}: CatalogPageProps) {
 	// Используем состояние для видео, чтобы обновлять их при необходимости
 	const [videos, setVideos] = useState<IVideo[]>(initialVideos)
 

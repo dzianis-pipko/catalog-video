@@ -1,20 +1,7 @@
 import { videoService } from '@/services/video.service';
 import type { IVideo } from '@/types/video';
+import { mapDurationFilter } from '@/utils/mapDurationFilter';
 import CatalogPage from './CatalogPage';
-
-// Вспомогательная функция для маппинга фильтров
-function mapDurationFilter(duration: string) {
-  switch (duration) {
-    case '<5':
-      return 'short' as const;
-    case '5-20':
-      return 'medium' as const;
-    case '>20':
-      return 'long' as const;
-    default:
-      return undefined;
-  }
-}
 
 // Серверный компонент для получения начальных данных
 export default async function Home({

@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation';
 import type { IVideo } from '@/types/video';
 import { formatDuration } from '@/utils/formatDuration';
+import { formatDate } from '@/utils/formatDate';
 import Button from '@/components/ui/button/Button';
 import { useVideoById } from '@/hooks/useVideoById';
 
@@ -13,15 +14,6 @@ const VideoDetailPage = () => {
     isLoading,
     isError
   } = useVideoById(id as string);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-  };
 
   if (isLoading) {
     return (

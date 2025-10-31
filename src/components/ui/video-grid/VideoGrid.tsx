@@ -1,16 +1,11 @@
 'use client';
 
+import { EmptyState } from '../empty-state/EmptyState';
 import Button from '../button/Button';
 import { VideoCardSkeleton } from '../skeletons/VideoCardSkeleton';
 import { VideoCard } from '../video-card/VideoCard';
 
-
-
 import type { IVideo } from '@/types/video';
-
-
-
-
 
 interface VideoGridProps {
   videos: IVideo[];
@@ -27,15 +22,13 @@ export const VideoGrid = ({ videos, isLoading, isError, onRetry, onResetFilters 
 
   if(isError) {
     result = (
-      <div className="col-span-full text-center py-12 transition-opacity duration-300">
-      	<p className="text-lg text-red-50 dark:text-red-400 mb-4">Ошибка загрузки видео</p>
-      	<Button
-      		onClick={() => onRetry?.()}
-      		ariaLabel="Повторить загрузку видео"
-      	>
-      		Повторить
-      	</Button>
-      </div>
+      <EmptyState
+        message="Ошибка загрузки видео"
+        buttonText="Повторить"
+        onClick={() => onRetry?.()}
+        buttonAriaLabel="Повторить загрузку видео"
+        textColor="text-red-500 dark:text-red-400"
+      />
     );
   } else if(isLoading){
     result = (
@@ -47,15 +40,12 @@ export const VideoGrid = ({ videos, isLoading, isError, onRetry, onResetFilters 
     )
   } else if (videos.length === 0) {
     result = (
-      <div className="col-span-full text-center py-12 transition-opacity duration-300">
-      	<p className="text-lg text-gray-300 dark:text-text-secondary mb-4">Видео не найдены</p>
-      	<Button
-      		onClick={() => onResetFilters?.()}
-      		ariaLabel="Сбросить фильтры"
-      	>
-      		Сбросить фильтры
-      	</Button>
-      </div>
+      <EmptyState
+        message="Видео не найдены"
+        buttonText="Сбросить фильтры"
+        onClick={() => onResetFilters?.()}
+        buttonAriaLabel="Сбросить фильтры"
+      />
     );
   } else {
     result = (
