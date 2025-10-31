@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { IVideo } from '@/types/video';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export type DurationFilter = '<5' | '5-20' | '>20' | 'all';
 
@@ -12,10 +13,28 @@ interface VideoFilters {
 }
 
 export const useVideoFilters = (videos: IVideo[], initialFilters?: Partial<VideoFilters>) => {
-  const [filters, setFilters] = useState<VideoFilters>({
-    searchTerm: initialFilters?.searchTerm || '',
-    durationFilter: initialFilters?.durationFilter || 'all',
-    sortBy: initialFilters?.sortBy || 'date',
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const hasInitialized = useRef(false);
+  
+ // Инициализация фильтров из URL или из начальных значений
+ const [filters, setFilters] = useState<VideoFilters>(() => {
+    // Проверяем, есть ли параметры в URL при начальной загрузке
+    // Если есть параметры в URL, используем их, иначе используем серверные начальные значения
+    const urlSearch = searchParams?.get('search');
+    const urlDuration = searchParams?.get('duration');
+    const urlSort = searchParams?.get('sort');
+    
+    // Если в URL есть параметры, используем их, иначе используем initialFilters
+    const searchTerm = urlSearch !== null ? urlSearch : initialFilters?.searchTerm || '';
+    const durationFilter = urlDuration ? (urlDuration as DurationFilter) : initialFilters?.durationFilter || 'all';
+    const sortBy = urlSort ? (urlSort as 'date' | 'title') : initialFilters?.sortBy || 'date';
+    
+    return {
+      searchTerm,
+      durationFilter,
+      sortBy,
+    };
   });
   
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
@@ -65,6 +84,37 @@ export const useVideoFilters = (videos: IVideo[], initialFilters?: Partial<Video
         return a.title.localeCompare(b.title);
       }
     });
+
+  // Эффект для синхронизации фильтров с URL-параметрами при монтировании
+  useEffect(() => {
+    // Помечаем, что инициализация завершена
+    hasInitialized.current = true;
+  }, []); // Пустой массив зависимостей, чтобы выполнить только при монтировании
+
+  // Обновление URL при изменении фильтров (только после начальной инициализации)
+  useEffect(() => {
+    // Пропускаем первую инициализацию
+    if (!hasInitialized.current) {
+      return;
+    }
+    
+    const params = new URLSearchParams();
+    
+    if (filters.searchTerm) {
+      params.set('search', filters.searchTerm);
+    }
+    
+    if (filters.durationFilter !== 'all') {
+      params.set('duration', filters.durationFilter);
+    }
+    
+    if (filters.sortBy !== 'date') {
+      params.set('sort', filters.sortBy);
+    }
+    
+    // Обновление URL без перезагрузки страницы
+    router.replace(`?${params.toString()}`, { scroll: false });
+  }, [filters, router]);
 
   return {
     filters,

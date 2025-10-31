@@ -65,17 +65,23 @@ export async function GET(request: NextRequest) {
 
 	// Эмуляция ошибки в 10% случаев
 	if (Math.random() < 0.1) {
-		return new Response(JSON.stringify({ error: 'Failed to fetch videos' }), {
-			status: 500,
-			headers: { 'Content-Type': 'application/json' }
-		})
+	  return new Response(JSON.stringify({ error: 'Failed to fetch videos' }), {
+	    status: 500,
+	    headers: { 'Content-Type': 'application/json' }
+	  })
 	}
 
 	// Задержка для имитации реального API
 	await delay(500)
 
-	return new Response(JSON.stringify(filteredVideos), {
-		status: 200,
-		headers: { 'Content-Type': 'application/json' }
-	})
+	// Добавляем кэширование для SSR
+	const response = new Response(JSON.stringify(filteredVideos), {
+	  status: 200,
+	  headers: {
+	    'Content-Type': 'application/json',
+	    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' // Кэширование на 1 час
+	  }
+	});
+	
+	return response;
 }

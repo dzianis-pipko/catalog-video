@@ -6,7 +6,6 @@ import { useVideoFilters } from '@/hooks/useVideoFilters';
 import { useVideoCatalog } from '@/hooks/useVideoCatalog';
 import type { IVideo } from '@/types/video';
 import { useEffect, useRef, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
 
 interface PageWrapperProps {
   initialVideos: IVideo[];
@@ -22,10 +21,6 @@ export default function PageWrapper({
   initialSort
 }: PageWrapperProps) {
   
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const hasInitialized = useRef(false);
-
   // Используем состояние для видео, чтобы обновлять их при необходимости
   const [videos, setVideos] = useState<IVideo[]>(initialVideos);
 
@@ -67,32 +62,6 @@ export default function PageWrapper({
     });
   };
 
-  // Обновление URL при изменении фильтров (только после начальной инициализации)
-  useEffect(() => {
-    // Пропускаем первую инициализацию
-    if (!hasInitialized.current) {
-      hasInitialized.current = true;
-      return;
-    }
-    
-    const params = new URLSearchParams();
-    
-    if (filters.searchTerm) {
-      params.set('search', filters.searchTerm);
-    }
-    
-    if (filters.durationFilter !== 'all') {
-      params.set('duration', filters.durationFilter);
-    }
-    
-    if (filters.sortBy !== 'date') {
-      params.set('sort', filters.sortBy);
-    }
-    
-    // Обновление URL без перезагрузки страницы
-    router.replace(`?${params.toString()}`, { scroll: false });
-  }, [filters, router]);
-
   // Обновление данных при изменении фильтров
   useEffect(() => {
     refetch();
@@ -126,7 +95,7 @@ export default function PageWrapper({
         />
         <VideoGrid
           videos={filteredAndSortedVideos}
-          isLoading={isLoading}
+          isLoading={false} // На сервере данные уже загружены, поэтому isLoading = false
           isError={isError}
           onRetry={refetch}
           onResetFilters={resetFilters}
