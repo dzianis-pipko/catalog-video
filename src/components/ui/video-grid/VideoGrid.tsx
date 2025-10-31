@@ -3,7 +3,14 @@
 import Button from '../button/Button';
 import { VideoCardSkeleton } from '../skeletons/VideoCardSkeleton';
 import { VideoCard } from '../video-card/VideoCard';
+
+
+
 import type { IVideo } from '@/types/video';
+
+
+
+
 
 interface VideoGridProps {
   videos: IVideo[];
@@ -16,8 +23,7 @@ interface VideoGridProps {
 export const VideoGrid = ({ videos, isLoading, isError, onRetry, onResetFilters }: VideoGridProps) => {
 
   let result
-	let containerClass =
-		'grid grid-cols-1 md:grid-cols-2 lg1200:grid-cols-3 gap-6 min-h-[600px] transition-all duration-300'
+	let containerClass = 'grid-responsive transition-all duration-300'
 
   if(isError) {
     result = (

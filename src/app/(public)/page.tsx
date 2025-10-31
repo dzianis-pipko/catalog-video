@@ -82,8 +82,8 @@ export default function Home() {
   }
 
   return (
-    <section className="py-8">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className='py-8 w-full'>
+      <div className="w-full max-w-7xl px-4 mx-auto">
         <h1 className="text-3xl font-bold text-white dark:text-text-primary mb-8">{isLoading ? 'Загрузка видео...' : 'Видео-каталог'}</h1>
         <VideoFilters
           searchTerm={filters.searchTerm}
