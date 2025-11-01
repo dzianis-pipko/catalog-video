@@ -1,36 +1,40 @@
 'use client';
 
-import { VideoCard } from '../video-card/VideoCard';
-import { VideoCardSkeleton } from '../skeletons/VideoCardSkeleton';
+import { EmptyState } from '../empty-state/EmptyState';
 import Button from '../button/Button';
+import { VideoCardSkeleton } from '../skeletons/VideoCardSkeleton';
+import { VideoCard } from '../video-card/VideoCard';
+
 import type { IVideo } from '@/types/video';
 
 interface VideoGridProps {
   videos: IVideo[];
   isLoading: boolean;
+  isFetched?: boolean; // для лучшей синхронизации с гидрацией
   isError?: boolean;
   onRetry?: () => void;
-  onResetFilters?: () => void;
+ onResetFilters?: () => void;
 }
 
-export const VideoGrid = ({ videos, isLoading, isError, onRetry, onResetFilters }: VideoGridProps) => {
+export const VideoGrid = ({ videos, isLoading, isFetched, isError, onRetry, onResetFilters }: VideoGridProps) => {
 
-  let result;
-  let containerClass = 'grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[600px] transition-all duration-300';
+  let result
+	let containerClass = 'grid-responsive transition-all duration-300'
+
+  // Показ skeletons только если isLoading и данные еще не получены (isFetched === false или undefined)
+  const shouldShowSkeletons = isLoading && (!isFetched || typeof isFetched === 'undefined');
 
   if(isError) {
     result = (
-      <div className="col-span-full text-center py-12 transition-opacity duration-300">
-      	<p className="text-lg text-red-50 dark:text-red-400 mb-4">Ошибка загрузки видео</p>
-      	<Button
-      		onClick={() => onRetry?.()}
-      		ariaLabel="Повторить загрузку видео"
-      	>
-      		Повторить
-      	</Button>
-      </div>
+      <EmptyState
+          message="Ошибка загрузки видео"
+          buttonText="Повторить"
+          onClick={() => onRetry?.()}
+          buttonAriaLabel="Повторить загрузку видео"
+          textColor="text-red-500 dark:text-red-400"
+        />
     );
-  } else if(isLoading){
+  } else if(shouldShowSkeletons){
     result = (
       <>
         {[...Array(6)].map((_, index) => (
@@ -40,15 +44,12 @@ export const VideoGrid = ({ videos, isLoading, isError, onRetry, onResetFilters 
     )
   } else if (videos.length === 0) {
     result = (
-      <div className="col-span-full text-center py-12 transition-opacity duration-300">
-      	<p className="text-lg text-gray-300 dark:text-text-secondary mb-4">Видео не найдены</p>
-      	<Button
-      		onClick={() => onResetFilters?.()}
-      		ariaLabel="Сбросить фильтры"
-      	>
-      		Сбросить фильтры
-      	</Button>
-      </div>
+      <EmptyState
+        message="Видео не найдены"
+        buttonText="Сбросить фильтры"
+        onClick={() => onResetFilters?.()}
+        buttonAriaLabel="Сбросить фильтры"
+      />
     );
   } else {
     result = (
@@ -61,7 +62,7 @@ export const VideoGrid = ({ videos, isLoading, isError, onRetry, onResetFilters 
         ))}
       </>
     )
-  }
+ }
   
 	return (
     <div className={containerClass}>

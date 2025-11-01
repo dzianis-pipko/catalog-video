@@ -1,12 +1,40 @@
 import { axiosClassic } from '@/api/axios'
-
-import type { IDataVideo } from '@/types/example.ts'
+import type { IVideo } from '@/types/video'
+import type { TSortOption, TDurationValue } from '@/types/filter'
 
 class VideoService {
-	private _VIDEOS = '/videos'
+	private _VIDEOS = '/api/videos'
 
-	getVideoCatalog() {
-		return axiosClassic.get<IDataVideo>(`${this._VIDEOS}/example`)
+	async getVideoCatalog(
+		search?: string,
+		duration?: TDurationValue,
+		sort?: TSortOption
+	) {
+		try {
+			const params = new URLSearchParams()
+			if (search) params.append('search', search)
+			if (duration) params.append('duration', duration)
+			if (sort) params.append('sort', sort)
+
+			const queryString = params.toString()
+			const url = queryString ? `${this._VIDEOS}?${queryString}` : this._VIDEOS
+
+			const response = await axiosClassic.get<IVideo[]>(url)
+			return response.data
+		} catch (error) {
+			console.error('Error fetching video catalog:', error)
+			throw error
+		}
+	}
+
+	async getVideoById(id: string) {
+		try {
+			const response = await axiosClassic.get<IVideo>(`${this._VIDEOS}/${id}`)
+			return response.data
+		} catch (error) {
+			console.error(`Error fetching video with id ${id}:`, error)
+			throw error
+		}
 	}
 }
 

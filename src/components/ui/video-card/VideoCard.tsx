@@ -3,20 +3,13 @@
 import type { IVideo } from '@/types/video';
 import Image from 'next/image';
 import { formatDuration } from '@/utils/formatDuration';
+import { formatDate } from '@/utils/formatDate';
 
 interface VideoCardProps {
   video: IVideo;
 }
 
 export const VideoCard = ({ video }: VideoCardProps) => {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-  };
 
   return (
     <div

@@ -6,7 +6,7 @@ const Layout = ({ children }: PropsWithChildren<unknown>) => {
 		<main
 			className={'flex min-h-screen justify-center'}
 		>
-			<section className='p-layout'>{children}</section>
+			{children}
 		</main>
 	)
 }

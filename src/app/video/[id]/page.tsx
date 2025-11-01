@@ -1,38 +1,21 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import type { IVideo } from '@/types/video';
 import { formatDuration } from '@/utils/formatDuration';
+import { formatDate } from '@/utils/formatDate';
 import Button from '@/components/ui/button/Button';
+import { useVideoById } from '@/hooks/useVideoById';
 
 const VideoDetailPage = () => {
   const { id } = useParams();
-  const [video, setVideo] = useState<IVideo | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const {
+    data: video,
+    isLoading,
+    isError
+  } = useVideoById(id as string);
 
-  useEffect(() => {
-    const fetchVideo = async () => {
-      try {
-        const response = await fetch(`/api/videos/${id}`);
-        if (!response.ok) throw new Error('Видео не найдено');
-        const data = await response.json();
-        setVideo(data);
-      } catch (err) {
-        setError(true);
-        console.error('Ошибка загрузки видео:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (id) {
-      fetchVideo();
-    }
-  }, [id]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
         <div className="text-center">
@@ -43,7 +26,7 @@ const VideoDetailPage = () => {
     );
   }
 
-  if (error || !video) {
+  if (isError || !video) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
         <div className="text-center">
@@ -59,15 +42,6 @@ const VideoDetailPage = () => {
       </div>
     );
   }
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
@@ -107,8 +81,7 @@ const VideoDetailPage = () => {
             <div className="mt-6">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Описание</h2>
               <p className="text-gray-700 dark:text-gray-300">
-                Здесь будет отображаться подробная информация о видео. В реальном приложении это может быть
-                расширенное описание, теги, категории и другая метаинформация о видео.
+                Подробная информация о видео
               </p>
             </div>
           </div>
