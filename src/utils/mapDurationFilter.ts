@@ -3,7 +3,9 @@
  * @param filter - Duration filter string ('<5', '5-20', '>20')
  * @returns 'short' | 'medium' | 'long' | undefined
  */
-export function mapDurationFilter(filter: string): 'short' | 'medium' | 'long' | undefined {
+import type { DurationValue } from '@/types/filter';
+
+export function mapDurationFilter(filter: string): DurationValue | undefined {
   switch (filter) {
     case '<5':
       return 'short';

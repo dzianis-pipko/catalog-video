@@ -7,14 +7,16 @@ import { VideoGrid } from '@/components/ui/video-grid/VideoGrid';
 
 import { useVideoCatalog } from '@/hooks/useVideoCatalog';
 import { useVideoFilters } from '@/hooks/useVideoFilters';
+import { mapDurationFilter } from '@/utils/mapDurationFilter';
 
 import type { IVideo } from '@/types/video';
+import type { DurationFilter, SortOption } from '@/types/filter';
 
 interface CatalogPageProps {
 	initialVideos: IVideo[]
 	initialSearch: string
-	initialDuration: 'all' | '<5' | '5-20' | '>20'
-	initialSort: 'date' | 'title'
+	initialDuration: DurationFilter
+	initialSort: SortOption
 }
 
 export default function CatalogPage({
@@ -65,19 +67,6 @@ export default function CatalogPage({
 		refetch()
 	}, [filters.searchTerm, filters.durationFilter, filters.sortBy])
 
-	// Вспомогательная функция для маппинга фильтров
-	function mapDurationFilter(duration: string) {
-		switch (duration) {
-			case '<5':
-				return 'short' as const
-			case '5-20':
-				return 'medium' as const
-			case '>20':
-				return 'long' as const
-			default:
-				return undefined
-		}
-	}
 
 	return (
 		<section className='py-8 w-full'>
@@ -95,7 +84,7 @@ export default function CatalogPage({
 				/>
 				<VideoGrid
 					videos={filteredAndSortedVideos}
-					isLoading={false} // На сервере данные уже загружены, поэтому isLoading = false
+					isLoading={isLoading}
 					isError={isError}
 					onRetry={refetch}
 					onResetFilters={resetFilters}

@@ -1,9 +1,9 @@
-import type { Metadata } from 'next'
-import { Noto_Sans } from 'next/font/google'
+import type { Metadata } from 'next';
+import { Noto_Sans } from 'next/font/google';
 
-import { Providers } from '@/providers/Providers'
+import { Providers } from '@/providers/Providers';
 
-import './globals.css'
+import './globals.css';
 
 const notoSans = Noto_Sans({
 	variable: '--font-noto-sans',
@@ -12,8 +12,8 @@ const notoSans = Noto_Sans({
 
 export const metadata: Metadata = {
 	title: {
-		absolute: 'Video Portal',
-		template: `%s | Video Portal`
+		absolute: 'Video Catalog',
+		template: `Video Catalog`
 	},
 	description: 'Best app for video watching'
 }

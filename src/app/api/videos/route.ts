@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server'
 
 import videos from '@/data/videos.json'
+import type { SortOption } from '@/types/filter'
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -8,7 +9,7 @@ export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams
 	const search = searchParams.get('search')
 	const duration = searchParams.get('duration')
-	const sort = searchParams.get('sort')
+	const sort = searchParams.get('sort') as SortOption | null
 
 	let filteredVideos = [...videos]
 
@@ -21,7 +22,7 @@ export async function GET(request: NextRequest) {
 
 	// Фильтр по длительности
 	if (duration) {
-		switch (duration) {
+	switch (duration) {
 			case 'short':
 				filteredVideos = filteredVideos.filter(
 					video => video.durationSec < 300 // < 5 минут

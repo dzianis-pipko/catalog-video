@@ -1,16 +1,17 @@
 'use client';
 
-import type { DurationFilter } from '@/hooks/useVideoFilters';
+import type { DurationFilter } from '@/types/filter';
+import type { SortOption } from '@/types/filter';
 import { SearchInput } from '../search-input/SearchInput';
 import { SelectInput } from '../select-input/SelectInput';
 
 interface VideoFiltersProps {
   searchTerm: string;
   durationFilter: DurationFilter;
-  sortBy: 'date' | 'title';
+  sortBy: SortOption;
   onSearchChange: (term: string) => void;
   onDurationFilterChange: (filter: DurationFilter) => void;
-  onSortChange: (sort: 'date' | 'title') => void;
+  onSortChange: (sort: SortOption) => void;
 }
 
 export const VideoFilters = ({
@@ -44,7 +45,7 @@ export const VideoFilters = ({
           ]}
         />
         
-        <SelectInput<'date' | 'title'>
+        <SelectInput<SortOption>
           value={sortBy}
           onChange={onSortChange}
           className="min-w-[150px]"

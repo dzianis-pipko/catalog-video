@@ -1,6 +1,7 @@
 import { videoService } from '@/services/video.service';
 import type { IVideo } from '@/types/video';
 import { mapDurationFilter } from '@/utils/mapDurationFilter';
+import type { DurationFilter, SortOption } from '@/types/filter';
 import CatalogPage from './CatalogPage';
 
 // Серверный компонент для получения начальных данных
@@ -11,8 +12,8 @@ export default async function Home({
 }) {
   // Инициализация фильтров из URL-параметров
   const initialSearch = ((await searchParams).search as string) || '';
-  const initialDuration = ((await searchParams).duration as 'all' | '<5' | '5-20' | '>20') || 'all';
- const initialSort = ((await searchParams).sort as 'date' | 'title') || 'date';
+  const initialDuration = ((await searchParams).duration as DurationFilter) || 'all';
+  const initialSort = ((await searchParams).sort as SortOption) || 'date';
 
  // Получение видео на сервере с обработкой ошибок
   let initialVideos: IVideo[] = [];
