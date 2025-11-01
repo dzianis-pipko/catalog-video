@@ -1,7 +1,7 @@
-import { NextRequest } from 'next/server'
+import { NextRequest } from 'next/server';
 
-import videos from '@/data/videos.json'
-import type { SortOption } from '@/types/filter'
+import videos from '@/data/videos.json';
+import type { TSortOption } from '@/types/filter';
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams
 	const search = searchParams.get('search')
 	const duration = searchParams.get('duration')
-	const sort = searchParams.get('sort') as SortOption | null
+	const sort = searchParams.get('sort') as TSortOption | null
 
 	let filteredVideos = [...videos]
 
