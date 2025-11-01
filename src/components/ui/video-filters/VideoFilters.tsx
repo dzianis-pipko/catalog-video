@@ -1,17 +1,17 @@
 'use client';
 
-import type { DurationFilter } from '@/types/filter';
-import type { SortOption } from '@/types/filter';
+import type { TDurationFilter } from '@/types/filter';
+import type { TSortOption } from '@/types/filter';
 import { SearchInput } from '../search-input/SearchInput';
 import { SelectInput } from '../select-input/SelectInput';
 
 interface VideoFiltersProps {
   searchTerm: string;
-  durationFilter: DurationFilter;
-  sortBy: SortOption;
+  durationFilter: TDurationFilter;
+  sortBy: TSortOption;
   onSearchChange: (term: string) => void;
-  onDurationFilterChange: (filter: DurationFilter) => void;
-  onSortChange: (sort: SortOption) => void;
+  onDurationFilterChange: (filter: TDurationFilter) => void;
+  onSortChange: (sort: TSortOption) => void;
 }
 
 export const VideoFilters = ({
@@ -33,7 +33,7 @@ export const VideoFilters = ({
       </div>
       
       <div className="flex gap-2 flex-wrap">
-        <SelectInput<DurationFilter>
+        <SelectInput
           value={durationFilter}
           onChange={onDurationFilterChange}
           className="min-w-[150px]"
@@ -45,7 +45,7 @@ export const VideoFilters = ({
           ]}
         />
         
-        <SelectInput<SortOption>
+        <SelectInput
           value={sortBy}
           onChange={onSortChange}
           className="min-w-[150px]"

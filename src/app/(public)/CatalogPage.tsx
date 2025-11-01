@@ -10,13 +10,13 @@ import { useVideoFilters } from '@/hooks/useVideoFilters';
 import { mapDurationFilter } from '@/utils/mapDurationFilter';
 
 import type { IVideo } from '@/types/video';
-import type { DurationFilter, SortOption } from '@/types/filter';
+import type { TDurationFilter, TSortOption } from '@/types/filter';
 
 interface CatalogPageProps {
 	initialVideos: IVideo[]
 	initialSearch: string
-	initialDuration: DurationFilter
-	initialSort: SortOption
+	initialDuration: TDurationFilter
+	initialSort: TSortOption
 }
 
 export default function CatalogPage({

@@ -1,14 +1,14 @@
 import { axiosClassic } from '@/api/axios'
 import type { IVideo } from '@/types/video'
-import type { SortOption, DurationValue } from '@/types/filter'
+import type { TSortOption, TDurationValue } from '@/types/filter'
 
 class VideoService {
 	private _VIDEOS = '/api/videos'
 
 	async getVideoCatalog(
 		search?: string,
-		duration?: DurationValue,
-		sort?: SortOption
+		duration?: TDurationValue,
+		sort?: TSortOption
 	) {
 		const params = new URLSearchParams()
 		if (search) params.append('search', search)

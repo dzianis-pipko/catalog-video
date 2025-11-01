@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { videoService } from '@/services/video.service'
-import type { SortOption, DurationValue } from '@/types/filter'
+import type { TSortOption, TDurationValue } from '@/types/filter'
 
 export const useVideoCatalog = (
 	search?: string,
-	duration?: DurationValue,
-	sort?: SortOption
+	duration?: TDurationValue,
+	sort?: TSortOption
 ) => {
 	return useQuery({
 		queryKey: ['video-catalog', search, duration, sort],
