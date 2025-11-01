@@ -11,13 +11,13 @@ export const useVideoCatalog = (
 	return useQuery<IVideo[]>({
 		queryKey: ['video-catalog', search, duration, sort],
 		queryFn: () => videoService.getVideoCatalog(search, duration, sort),
-		retry: 1, // Увеличиваем количество попыток до 1
+		retry: 1,
 		refetchOnWindowFocus: false,
 		staleTime: 5 * 60 * 1000, // 5 минут
 		gcTime: 10 * 60 * 1000, // 10 минут (вместо cacheTime)
-		// Отключаем автоматический рефетч при гидрации, чтобы избежать проблем с гидрацией
+		// Отключение автоматического рефетч при гидрации
 		retryOnMount: false,
-		// Устанавливаем placeholderData для избежания показа skeletons при гидрации
+		// Установка placeholderData для избежания показа skeletons при гидрации
 		placeholderData: (prevData) => prevData,
 	})
 }
