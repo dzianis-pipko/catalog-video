@@ -1,57 +1,47 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 import { VideoFilters } from '@/components/ui/video-filters/VideoFilters';
 import { VideoGrid } from '@/components/ui/video-grid/VideoGrid';
 
 import { useVideoCatalog } from '@/hooks/useVideoCatalog';
-import { useVideoFilters } from '@/hooks/useVideoFilters';
-import { mapDurationFilter } from '@/utils/mapDurationFilter';
+import { useVideoFilters, useVideoFiltering } from '@/hooks/useVideoFilterLogic';
+import { useUrlSync } from '@/hooks/useUrlSync';
 
-import type { IVideo } from '@/types/video';
 import type { TDurationFilter, TSortOption } from '@/types/filter';
 
 interface CatalogPageProps {
-	initialVideos: IVideo[]
 	initialSearch: string
 	initialDuration: TDurationFilter
 	initialSort: TSortOption
 }
 
 export default function CatalogPage({
-	initialVideos,
 	initialSearch,
 	initialDuration,
 	initialSort
 }: CatalogPageProps) {
-	// Используем состояние для видео, чтобы обновлять их при необходимости
-	const [videos, setVideos] = useState<IVideo[]>(initialVideos)
-
-	// Инициализация фильтров серверными значениями
+	// Инициализация фильтров начальными значениями
 	const initialFilters = {
 		searchTerm: initialSearch,
 		durationFilter: initialDuration,
 		sortBy: initialSort
 	}
 
-	// Используем фильтрацию с текущими видео и начальными фильтрами
-	const { filters, setFilters, filteredAndSortedVideos } = useVideoFilters(videos, initialFilters)
-
-	// Используем TanStack Query для получения обновленных данных при изменении фильтров
+	// Используем TanStack Query для получения ВСЕХ видео один раз при загрузке
 	const {
-		data: updatedData,
+		data: allVideos = [],
 		isLoading,
 		isError,
-		refetch
-	} = useVideoCatalog(filters.searchTerm, mapDurationFilter(filters.durationFilter), filters.sortBy)
+		refetch,
+		isFetched
+	} = useVideoCatalog('', undefined, 'date') // Получаем все видео без фильтрации
 
-	// Обновляем видео, когда приходят обновленные данные
-	useEffect(() => {
-		if (updatedData) {
-			setVideos(updatedData)
-		}
-	}, [updatedData])
+	// Используем хуки для фильтрации
+	const { filters, setFilters, debouncedSearchTerm } = useVideoFilters(initialFilters);
+	const filteredAndSortedVideos = useVideoFiltering(allVideos, debouncedSearchTerm, filters);
+	
+	// Синхронизация с URL
+	useUrlSync(filters);
 
 	// Функция для сброса фильтров
 	const resetFilters = () => {
@@ -61,11 +51,6 @@ export default function CatalogPage({
 			sortBy: 'date'
 		})
 	}
-
-	// Обновление данных при изменении фильтров
-	useEffect(() => {
-		refetch()
-	}, [filters.searchTerm, filters.durationFilter, filters.sortBy])
 
 
 	return (
@@ -85,6 +70,7 @@ export default function CatalogPage({
 				<VideoGrid
 					videos={filteredAndSortedVideos}
 					isLoading={isLoading}
+					isFetched={isFetched}
 					isError={isError}
 					onRetry={refetch}
 					onResetFilters={resetFilters}

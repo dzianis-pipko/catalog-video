@@ -10,21 +10,31 @@ class VideoService {
 		duration?: TDurationValue,
 		sort?: TSortOption
 	) {
-		const params = new URLSearchParams()
-		if (search) params.append('search', search)
-		if (duration) params.append('duration', duration)
-		if (sort) params.append('sort', sort)
+		try {
+			const params = new URLSearchParams()
+			if (search) params.append('search', search)
+			if (duration) params.append('duration', duration)
+			if (sort) params.append('sort', sort)
 
-		const queryString = params.toString()
-		const url = queryString ? `${this._VIDEOS}?${queryString}` : this._VIDEOS
+			const queryString = params.toString()
+			const url = queryString ? `${this._VIDEOS}?${queryString}` : this._VIDEOS
 
-		const response = await axiosClassic.get<IVideo[]>(url)
-		return response.data
+			const response = await axiosClassic.get<IVideo[]>(url)
+			return response.data
+		} catch (error) {
+			console.error('Error fetching video catalog:', error)
+			throw error
+		}
 	}
 
 	async getVideoById(id: string) {
-		const response = await axiosClassic.get<IVideo>(`${this._VIDEOS}/${id}`)
-	return response.data
+		try {
+			const response = await axiosClassic.get<IVideo>(`${this._VIDEOS}/${id}`)
+			return response.data
+		} catch (error) {
+			console.error(`Error fetching video with id ${id}:`, error)
+			throw error
+		}
 	}
 }
 

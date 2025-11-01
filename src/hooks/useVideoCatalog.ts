@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { videoService } from '@/services/video.service'
+import type { IVideo } from '@/types/video'
 import type { TSortOption, TDurationValue } from '@/types/filter'
 
 export const useVideoCatalog = (
@@ -7,10 +8,16 @@ export const useVideoCatalog = (
 	duration?: TDurationValue,
 	sort?: TSortOption
 ) => {
-	return useQuery({
+	return useQuery<IVideo[]>({
 		queryKey: ['video-catalog', search, duration, sort],
 		queryFn: () => videoService.getVideoCatalog(search, duration, sort),
-		retry: false,
-	refetchOnWindowFocus: false,
+		retry: 1, // Увеличиваем количество попыток до 1
+		refetchOnWindowFocus: false,
+		staleTime: 5 * 60 * 1000, // 5 минут
+		gcTime: 10 * 60 * 1000, // 10 минут (вместо cacheTime)
+		// Отключаем автоматический рефетч при гидрации, чтобы избежать проблем с гидрацией
+		retryOnMount: false,
+		// Устанавливаем placeholderData для избежания показа skeletons при гидрации
+		placeholderData: (prevData) => prevData,
 	})
 }

@@ -10,27 +10,31 @@ import type { IVideo } from '@/types/video';
 interface VideoGridProps {
   videos: IVideo[];
   isLoading: boolean;
+  isFetched?: boolean; // для лучшей синхронизации с гидрацией
   isError?: boolean;
   onRetry?: () => void;
-  onResetFilters?: () => void;
+ onResetFilters?: () => void;
 }
 
-export const VideoGrid = ({ videos, isLoading, isError, onRetry, onResetFilters }: VideoGridProps) => {
+export const VideoGrid = ({ videos, isLoading, isFetched, isError, onRetry, onResetFilters }: VideoGridProps) => {
 
   let result
 	let containerClass = 'grid-responsive transition-all duration-300'
 
+  // Показ skeletons только если isLoading и данные еще не получены (isFetched === false или undefined)
+  const shouldShowSkeletons = isLoading && (!isFetched || typeof isFetched === 'undefined');
+
   if(isError) {
     result = (
       <EmptyState
-        message="Ошибка загрузки видео"
-        buttonText="Повторить"
-        onClick={() => onRetry?.()}
-        buttonAriaLabel="Повторить загрузку видео"
-        textColor="text-red-500 dark:text-red-400"
-      />
+          message="Ошибка загрузки видео"
+          buttonText="Повторить"
+          onClick={() => onRetry?.()}
+          buttonAriaLabel="Повторить загрузку видео"
+          textColor="text-red-500 dark:text-red-400"
+        />
     );
-  } else if(isLoading){
+  } else if(shouldShowSkeletons){
     result = (
       <>
         {[...Array(6)].map((_, index) => (
@@ -58,7 +62,7 @@ export const VideoGrid = ({ videos, isLoading, isError, onRetry, onResetFilters 
         ))}
       </>
     )
-  }
+ }
   
 	return (
     <div className={containerClass}>

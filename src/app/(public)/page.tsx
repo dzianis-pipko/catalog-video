@@ -1,7 +1,7 @@
 import { videoService } from '@/services/video.service';
 import type { IVideo } from '@/types/video';
-import { mapDurationFilter } from '@/utils/mapDurationFilter';
 import type { TDurationFilter, TSortOption } from '@/types/filter';
+import { dehydrate, QueryClient, HydrationBoundary } from '@tanstack/react-query';
 import CatalogPage from './CatalogPage';
 
 // Серверный компонент для получения начальных данных
@@ -12,29 +12,38 @@ export default async function Home({
 }) {
   // Инициализация фильтров из URL-параметров
   const initialSearch = ((await searchParams).search as string) || '';
-  const initialDuration = ((await searchParams).duration as TDurationFilter) || 'all';
+ const initialDuration = ((await searchParams).duration as TDurationFilter) || 'all';
   const initialSort = ((await searchParams).sort as TSortOption) || 'date';
 
- // Получение видео на сервере с обработкой ошибок
-  let initialVideos: IVideo[] = [];
+  // Создаем экземпляр QueryClient на сервере
+  const queryClient = new QueryClient();
+
+  // Получение ВСЕХ видео на сервере с обработкой ошибок (для фильтрации на клиенте)
+  let allVideos: IVideo[] = [];
   try {
-    initialVideos = await videoService.getVideoCatalog(
-      initialSearch,
-      mapDurationFilter(initialDuration),
-      initialSort
+    allVideos = await videoService.getVideoCatalog('', undefined, 'date'); // Получаем все видео без фильтрации
+    
+    // Предварительно заполняем кэш данными
+    queryClient.setQueryData(
+      ['video-catalog', '', undefined, 'date'],
+      allVideos
     );
   } catch (error) {
     console.error('Error fetching videos:', error);
     // В случае ошибки возвращаем пустой массив
-    initialVideos = [];
+    allVideos = [];
   }
 
+  // Гидратируем кэш
+  const dehydratedState = dehydrate(queryClient);
+
   return (
-    <CatalogPage
-      initialVideos={initialVideos}
-      initialSearch={initialSearch}
-      initialDuration={initialDuration}
-      initialSort={initialSort}
-    />
+    <HydrationBoundary state={dehydratedState}>
+      <CatalogPage
+        initialSearch={initialSearch}
+        initialDuration={initialDuration}
+        initialSort={initialSort}
+      />
+    </HydrationBoundary>
   );
 }
